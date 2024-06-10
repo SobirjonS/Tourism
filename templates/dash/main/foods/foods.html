@@ -1,0 +1,99 @@
+{% extends 'dash/main/base.html' %}
+{% load static %}
+
+
+{% block title %}Foods{% endblock %}
+
+
+{% block css %}
+{% endblock %}
+
+
+{% block content %}
+<div class="align-items-end">
+    <div class="row">
+        <div class="card h-150">
+        </div>
+    </div>
+    <div class="row">
+        <div class="mt-5 offset-md-9 d-flex align-items-stretch">
+          <div class="card w-100">
+            <div class="d-flex align-items-center gap-2">
+                <form method="get" action="{% url 'dash:create_food' %}">
+                    <button class="btn btn-primary m-1" type="submit">Create</button>
+                </form>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 offset-md-1 d-flex align-items-stretch">
+          <div class="card w-100">
+            <div class="card-body p-4">
+              <h5 class="card-title fw-semibold mb-4">All foods</h5>
+              <div class="table-responsive">
+                <table class="table text-nowrap mb-0 align-middle">
+                  <thead class="text-dark fs-4">
+                    <tr>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0">Id</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0">Title</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0">Body</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0">Image</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0"></h6>
+                      </th>
+                    </tr>
+                  </thead>
+                  <form method="post">
+                    {%csrf_token%}
+                      <tbody>
+                        {% for food in data %}
+                        <tr>
+                            <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ forloop.counter }}</h6></td>
+                            <td class="border-bottom-0">
+                                <h6 class="fw-semibold mb-1">{{ food.title|slice:":30" }}...</h6>                       
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-normal">{{ food.body|slice:":40" }}...</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <div class="d-flex align-items-center gap-2">
+                                    {% if food.image %}
+                                        <a href="{{ food.image.url }}" target="_blank" class="text-bold">Link</a>
+                                    {% else %}
+                                        <p>No image available</p>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="border-bottom-0">
+                                <div class="d-flex align-items-center gap-2">
+                                    <a href="{% url 'dash:delete_food' pk=food.pk %}" class="btn btn-danger m-1">Delete</a>
+                                    <a href="{% url 'dash:update_food' pk=food.pk %}" class="btn btn-success m-1">Update</a>
+                                </div>
+                            </td>
+                        </tr> 
+                        {% endfor %}
+                   
+                      </tbody>
+                  </form>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+{% endblock %}
+  
